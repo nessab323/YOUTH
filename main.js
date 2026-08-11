@@ -64,3 +64,114 @@ if (verseElement) {
 
   showRandomVerse();
 }
+/* =========================
+GALLERY CAROUSEL
+========================= */
+
+const galleryCarousels = document.querySelectorAll(".gallery-event");
+
+const galleryPositions = [];
+
+galleryCarousels.forEach((event, eventIndex) => {
+
+
+const slides = event.querySelectorAll(".gallery-slide");
+
+galleryPositions[eventIndex] = 0;
+
+slides[0].classList.add("active");
+
+
+/* CREATE DOTS */
+
+const dotsContainer = event.querySelector(".gallery-dots");
+
+slides.forEach((slide, slideIndex) => {
+
+    const dot = document.createElement("span");
+
+    dot.classList.add("gallery-dot");
+
+    if(slideIndex === 0){
+        dot.classList.add("active");
+    }
+
+    dot.addEventListener("click", () => {
+
+        galleryPositions[eventIndex] = slideIndex;
+
+        showGallerySlide(eventIndex);
+
+    });
+
+    dotsContainer.appendChild(dot);
+
+});
+
+
+});
+
+function moveSlide(direction, eventIndex){
+
+
+const event = galleryCarousels[eventIndex];
+
+const slides = event.querySelectorAll(".gallery-slide");
+
+galleryPositions[eventIndex] += direction;
+
+
+/* LOOP BACK TO FIRST */
+
+if(galleryPositions[eventIndex] >= slides.length){
+
+    galleryPositions[eventIndex] = 0;
+
+}
+
+
+/* LOOP TO LAST */
+
+if(galleryPositions[eventIndex] < 0){
+
+    galleryPositions[eventIndex] = slides.length - 1;
+
+}
+
+
+showGallerySlide(eventIndex);
+
+
+}
+
+function showGallerySlide(eventIndex){
+
+const event = galleryCarousels[eventIndex];
+
+const slides = event.querySelectorAll(".gallery-slide");
+
+const dots = event.querySelectorAll(".gallery-dot");
+
+const current = galleryPositions[eventIndex];
+
+
+slides.forEach(slide => {
+
+    slide.classList.remove("active");
+
+});
+
+
+dots.forEach(dot => {
+
+    dot.classList.remove("active");
+
+});
+
+
+slides[current].classList.add("active");
+
+dots[current].classList.add("active");
+
+
+}
